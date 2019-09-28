@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'blog',
     'comments',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,13 @@ AUTH_USER_MODEL = 'users.User'
 LOGOUT_REDIRECT_URL = '/users/index'
 LOGIN_REDIRECT_URL = '/users/index'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'blog.whoosh_cn_backends.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
