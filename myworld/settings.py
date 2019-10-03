@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -131,8 +132,6 @@ LANGUAGE_CODE = 'zh-hans'
 TIME_ZONE = 'Asia/Shanghai'
 AUTH_USER_MODEL = 'users.User'
 
-LOGOUT_REDIRECT_URL = '/users/index'
-LOGIN_REDIRECT_URL = '/users/index'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 HAYSTACK_CONNECTIONS = {
@@ -158,4 +157,15 @@ SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 # 要求用户注册时必须填写email
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+LOGIN_REDIRECT_URL = '/blog/index'
+LOGOUT_REDIRECT_URL = '/blog/index'
+LOGIN_URL = '/accounts/login'
+
+
 

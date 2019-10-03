@@ -1,5 +1,8 @@
 {% extends 'blog/base.html' %}
 {% load highlight %}
+{% load pagetag %}
+{% load staticfiles %}
+
  
 {% block main %}
     {% if query %}
@@ -33,18 +36,27 @@
                 </div>
             </article>
         {% empty %}
-            <div class="no-post">没有搜索到你想要的结果！</div>
+            <div class="no-post" >没有搜索到你想要的结果！
         {% endfor %}
-        {% if page.has_previous or page.has_next %}
-            <div>
-                {% if page.has_previous %}
-                    <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous
-                {% if page.has_previous %}</a>{% endif %}
-                |
-                {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next
-                &raquo;{% if page.has_next %}</a>{% endif %}
-            </div>
-        {% endif %}
+
+        <nav style="text-align: center">
+        <ul class="pagination">
+            <li><a href="?q={{ query }}&amp;page=1">&laquo;</a></li>
+            {% if page.has_previous %}
+            <li><a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">上一页</a></li>
+            {% endif %}
+
+            {% for pg in page.paginator.page_range %}
+            {% circle_page page.number pg page.paginator.num_pages  query  %}
+            {% endfor %}
+
+            {% if page.has_next %}
+            <li><a href="?q={{ query }}&amp;page={{ page.next_page_number }}">下一页</a></li>
+            {% endif %}
+            <li><a href="?q={{ query }}&amp;page={{ page.paginator.num_pages }}">&raquo;</a></li>
+        </ul>
+        </nav>
+
     {% else %}
         请输入搜索关键词，例如 django
     {% endif %}

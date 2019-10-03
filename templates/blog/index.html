@@ -1,8 +1,16 @@
 {% extends 'blog/base.html' %}
 {% load staticfiles %}
+{% load blog_tags %}
+{% load pagetag %}
 
 {% block main %}
-{% for post in post_list %}
+
+
+<div class="content-body">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8">
+               {% for post in post_list %}
                 <article class="post post-{{ post.pk }}">
                     <header class="entry-header">
                         <h1 class="entry-title">
@@ -35,19 +43,109 @@
                     <a href="#">下一页</a>
                 </div>
                 -->
+                <nav style="text-align: center">
+                {% if search_name %}
 
-                <div class="pagination-simple">
-                  <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->
-                  {% if post_list.has_previous %}
-                    <a href="?page={{ post_list.previous_page_number }}">上一页</a>
-                  {% endif %}
-                  <!-- 显示当前页面信息 -->
-                  <span class="current">第 {{ post_list.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
-                  <!-- 如果当前页还有下一页，显示一个下一页的按钮 -->
-                  {% if post_list.has_next %}
-                    <a href="?page={{ post_list.next_page_number }}">下一页</a>
-                  {% endif %}
+            <ul class="pagination">
+            <li><a href="?search_i={{ search_name }}&page=1">&laquo;</a></li>
+            {% if post_list.has_previous %}
+            <li><a href="?search_i={{ search_name }}&page={{ post_list.previous_page_number }}">上一页</a></li>
+            {% endif %}
+
+            {% for pg in post_list.paginator.page_range %}
+            {% circle_page post_list.number pg post_list.paginator.num_pages search_name %}
+            {% endfor %}
+
+            {% if post_list.has_next %}
+            <li><a href="?search_i={{ search_name }}&page={{ post_list.next_page_number }}">下一页</a></li>
+            {% endif %}
+            <li><a href="?search_i={{ search_name }}&page={{ post_list.paginator.num_pages }}">&raquo;</a></li></ul>
+
+            {% else %}
+
+            <ul class="pagination">
+            <li><a href="?page=1">&laquo;</a></li>
+            {% if post_list.has_previous %}
+            <li><a href="?page={{ post_list.previous_page_number }}">上一页</a></li>
+            {% endif %}
+
+            {% for pg in post_list.paginator.page_range %}
+            {% circle_page post_list.number pg post_list.paginator.num_pages %}
+            {% endfor %}
+
+            {% if post_list.has_next %}
+            <li><a href="?page={{ post_list.next_page_number }}">下一页</a></li>
+            {% endif %}
+            <li><a href="?page={{ post_list.paginator.num_pages }}">&raquo;</a></li>
+
+            {% endif %}
+                </nav>
+
+
+            </main>
+            <aside class="col-md-4">
+                {% block toc %}
+                {% endblock toc %}
+
+                <div class="widget widget-recent-posts">
+                    <h3 class="widget-title">最新文章</h3>
+                    {% get_recent_posts as recent_post_list %}
+                    <ul>
+                        {% for post in recent_post_list %}
+                        <li>
+                            <a href="{% url 'blog:detail' post.pk %}">{{ post.title }}</a>
+                        </li>
+                        {% empty %}
+                        暂无文章
+                        {% endfor %}
+                    </ul>
                 </div>
+                <div class="widget widget-archives">
+                    {% archives as date_list %}
+                    <h3 class="widget-title">归档</h3>
+                    <ul>
+                        {% for date in date_list %}
+                        <li>
+                            <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+                        </li>
+                        {% empty %}
+                        暂无归档
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="widget widget-category">
+                    <h3 class="widget-title">分类</h3>
+                    {% get_categories as category_list %}
+                    <ul>
+                        {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }}<span class="post-count"> ({{ category.num_posts }}) </span></a>
+                        </li>
+                        {% empty %}
+                        暂无分类
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="widget widget-tag-cloud">
+                    <h3 class="widget-title">标签云</h3>
+                    {% get_tags as tag_list %}
+                    <ul>
+                        {% for tag in tag_list %}
+                        <li>
+                            <a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}</a>
+                        </li>
+                        {% empty %}
+                        暂无标签
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </aside>
+        </div>
+    </div>
+</div>
 
 {% endblock main %}
 
