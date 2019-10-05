@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% load blog_tags %}
+{% load pagetag %}
+
+{% block head_content %}
+  <link href="https://vjs.zencdn.net/7.6.5/video-js.css" rel="stylesheet">
+  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+{% endblock head_content %}
+
+
+{% block main %}
+
+  <video id='my-video' class='video-js' controls preload='auto' width='640' height='264' poster='MY_VIDEO_POSTER.jpg' data-setup='{}'>
+  <source src='F:\test\{{ video_name }}.mp3' type='video/mp4'>
+  <source src='MY_VIDEO.webm' type='video/webm'>
+  </video>
+
+  <script src='https://vjs.zencdn.net/7.6.5/video.js'></script>
+
+{% endblock main %}

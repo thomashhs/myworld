@@ -57,3 +57,14 @@ class Post(models.Model):
         # 调用父类的 save 方法将数据保存到数据库中
         super(Post, self).save(*args, **kwargs)
 
+
+class Tools(models.Model):
+    name = models.CharField(primary_key=True,max_length=128)
+    title = models.CharField(max_length=254)
+    desc = models.CharField(max_length=254)
+    visible = models.BooleanField()
+    date_add = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+

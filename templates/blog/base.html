@@ -59,6 +59,9 @@
 
     </style>
 
+    {% block head_content %}
+    {% endblock head_content %}
+
 </head>
 
 <body>
@@ -67,9 +70,10 @@
     <header id="site-header">
         <div class="row">
             <div class="col-md-4 col-sm-5 col-xs-8">
-                <div class="logo">
-                    <h1><a href="{% url 'blog:index' %}"><b>Black</b> &amp; White</a></h1>
-                </div>
+                <ul class="nav navbar-nav navbar-left">
+                <li class="cl-effect-11"><a href="{% url 'blog:tools' %}">在线工具</a></li>
+                <li class="cl-effect-11"><a href="{% url 'blog:video' %}">在线视频</a></li>
+                </ul>
             </div><!-- col-md-4 -->
             <div class="col-md-8 col-sm-7 col-xs-4">
                 <nav class="main-nav" role="navigation">

@@ -1,11 +1,12 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,render_to_response,redirect
 from django.http import HttpResponse
-from .models import Post,Category,Tag
+from .models import Post,Category,Tag,Tools
 import markdown
 from comments.forms import CommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
+import os
 
 # Create your views here.
 def index(request):
@@ -101,3 +102,25 @@ def tag(request,pk):
         post_list = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html', context={'post_list': post_list})
+
+def tools(request):
+    tool_list = Tools.objects.all()
+    return render(request,'blog/tools.html',context={'tool_list':tool_list})
+
+def toolname(request,tool_name):
+    tool=Tools.objects.get(name=tool_name)
+    return render(request,'blog/tools/'+tool_name+'.html',context={'tool':tool})
+
+def video(request):
+    video_list=[]
+    for videoname in os.listdir(r'F:\\test'):
+        if videoname.split('.')[-1] == 'mp4':
+            video_list.append(videoname.split('.')[0])
+    return render(request,'blog/video.html',context={'video_list':video_list})
+
+def videoname(request,video_name):
+    url='http://192.168.0.100:8090/'+video_name+'.mp4'
+    return redirect(url)
+
+def test(request):
+    return render(request,'blog/test.html')

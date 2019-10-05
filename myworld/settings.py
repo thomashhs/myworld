@@ -25,9 +25,6 @@ SECRET_KEY = '7d#$@!%^bl8@9t$3_d_!0--u*p!pw62g!dbb#s6_^_l^xv&vcy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -166,6 +163,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 LOGIN_REDIRECT_URL = '/blog/index'
 LOGOUT_REDIRECT_URL = '/blog/index'
 LOGIN_URL = '/accounts/login'
+
+ALLOWED_HOSTS = ['*']
 
 
 
